@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http_demo/blocs/issue_bloc.dart';
 import 'package:http_demo/models/issue.dart';
 import 'package:http_demo/utils/color.dart';
 import 'package:http_demo/utils/constant.dart';
@@ -38,14 +37,11 @@ Widget buildItem(BuildContext context, Issue issue) {
 }
 
 Widget buildHeader(BuildContext context, Issue issue) {
-  final avatarUrl =
-      "https://2.pik.vn/20213fbac149-9ebd-477d-ace7-0dbfabbadac4.png";
-
   return Row(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      buildAvatar(context, avatarUrl),
+      buildAvatar(context, issue.accountPublic!.avatar),
       SizedBox(width: 10),
       Expanded(
         child: RichText(
@@ -73,7 +69,14 @@ Widget buildHeader(BuildContext context, Issue issue) {
   );
 }
 
-Widget buildAvatar(BuildContext context, String url) {
+Widget buildAvatar(BuildContext context, String? url) {
+  if(url == null || url.isEmpty) {
+    url = defaultAvatar;
+  }
+  else {
+    url = baseUrl + url;
+  }
+
   return ClipRRect(
     borderRadius: BorderRadius.circular(500),
     child: Container(
@@ -170,7 +173,7 @@ Widget buildImages(BuildContext context, Issue issue, int index) {
         fit: BoxFit.cover,
       ),
     ),
-    child: issue.photos!.length >= 4 && index == 3
+    child: issue.photos!.length > 4 && index == 3
         ? Container(
             width: double.infinity,
             height: double.infinity,
