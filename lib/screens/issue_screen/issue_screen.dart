@@ -6,6 +6,7 @@ import 'package:http_demo/screens/issue_screen/list_issue.dart';
 import 'package:http_demo/utils/color.dart';
 import 'package:http_demo/utils/system.dart';
 import 'package:http_demo/widgets/custom_app_bar.dart';
+import 'package:lottie/lottie.dart';
 
 class IssueScreen extends StatefulWidget {
   const IssueScreen({Key? key}) : super(key: key);
@@ -88,7 +89,7 @@ class _IssueScreenState extends State<IssueScreen> {
         }
 
         return Center(
-          child: CircularProgressIndicator(),
+          child: Lottie.asset("assets/progress.json", width: 100, height: 100),
         );
       },
     );
