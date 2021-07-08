@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http_demo/utils/constant.dart';
 
@@ -17,12 +18,12 @@ class ApiService {
   Future<void> request({
     required String path,
     required Method method,
-    Map<String, dynamic>? parameters,
+    Map<String, String>? parameters,
     Map<String, String>? headers,
+    File? file,
     Function(dynamic)? onSuccess,
     Function(String)? onFailure,
   }) async {
-
     await Future.delayed(Duration(seconds: 1));
 
     parameters ??= {};
@@ -46,14 +47,27 @@ class ApiService {
         case Method.get:
           res = await http.get(url, headers: _headers);
           break;
+
         case Method.post:
-          res = await http.post(
-            url,
-            headers: _headers,
-            body: parameters,
-            encoding: utf8,
-          );
+          if (file != null) {
+            var request = http.MultipartRequest('POST', url);
+            request.files.add(
+              await http.MultipartFile.fromPath('file', file.path),
+            );
+            request.headers.addAll(headers);
+            request.fields.addAll(parameters);
+            res = await http.Response.fromStream(await request.send());
+
+          } else {
+            res = await http.post(
+              url,
+              headers: _headers,
+              body: parameters,
+              encoding: utf8,
+            );
+          }
           break;
+
         case Method.put:
           res = await http.put(
             url,
@@ -62,9 +76,11 @@ class ApiService {
             encoding: utf8,
           );
           break;
+
         case Method.delete:
           res = await http.delete(url, headers: _headers);
           break;
+
         default:
           res = await http.get(url, headers: _headers);
           break;
@@ -81,7 +97,6 @@ class ApiService {
         } else if (onFailure != null) {
           onFailure(serviceError(code) ?? json['message']);
         }
-
       } else if (res.statusCode == 401) {
         forceLogout(message: 'Phiên đăng nhập đã hết hạn');
       } else {
@@ -92,6 +107,7 @@ class ApiService {
       }
     } catch (e) {
       print('api_service try catch: ${baseUrl + path}');
+      print(e.toString());
       if (onFailure != null) {
         onFailure('Có lỗi đã xảy ra, vui lòng thử lại');
       }

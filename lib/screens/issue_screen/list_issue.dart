@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http_demo/models/issue.dart';
 import 'package:http_demo/utils/color.dart';
 import 'package:http_demo/utils/constant.dart';
 import 'package:http_demo/utils/system.dart';
+import 'package:http_demo/widgets/custom_avatar.dart';
 
 
 Widget buildItem(BuildContext context, Issue issue) {
@@ -41,7 +43,7 @@ Widget buildHeader(BuildContext context, Issue issue) {
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      buildAvatar(context, issue.accountPublic!.avatar),
+      CustomAvatar(url: issue.accountPublic!.avatar ?? "",),
       SizedBox(width: 10),
       Expanded(
         child: RichText(
@@ -66,24 +68,6 @@ Widget buildHeader(BuildContext context, Issue issue) {
         ],
       )
     ],
-  );
-}
-
-Widget buildAvatar(BuildContext context, String? url) {
-  if(url == null || url.isEmpty) {
-    url = defaultAvatar;
-  }
-  else {
-    url = baseUrl + url;
-  }
-
-  return ClipRRect(
-    borderRadius: BorderRadius.circular(500),
-    child: Container(
-      width: 48,
-      height: 48,
-      child: Image.network(url, fit: BoxFit.cover),
-    ),
   );
 }
 
@@ -169,7 +153,7 @@ Widget buildImages(BuildContext context, Issue issue, int index) {
   return Container(
     decoration: BoxDecoration(
       image: DecorationImage(
-        image: NetworkImage(baseUrl + issue.photos![index]),
+        image: CachedNetworkImageProvider(baseUrl + issue.photos![index]),
         fit: BoxFit.cover,
       ),
     ),
