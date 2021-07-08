@@ -79,6 +79,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
 
     try {
       PickedFile? pickedFile = await _picker.getImage(
+        maxWidth: 500,
+        maxHeight: 500,
         source: imageSource,
         imageQuality: 100,
       );
