@@ -38,7 +38,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
               builder: (ctx, snapshot) {
                 return GestureDetector(
                   onTap: changeAvatarAction,
-                  child: CustomAvatar(url: snapshot.data ?? "", size: 120),
+                  child: CustomAvatar(url: snapshot.data, size: 120),
                 );
               },
             ),
@@ -76,7 +76,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
 
   void selectPhoto(ImageSource imageSource) async {
     final progress = ProgressDialog(context: context);
-
     try {
       PickedFile? pickedFile = await _picker.getImage(
         maxWidth: 500,

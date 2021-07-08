@@ -4,12 +4,12 @@ import 'package:http_demo/utils/constant.dart';
 
 class CustomAvatar extends StatefulWidget {
   final double size;
-  final String url;
+  final String? url;
 
   const CustomAvatar({
     Key? key,
     this.size = 48,
-    required this.url,
+    this.url,
   }) : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class CustomAvatar extends StatefulWidget {
 class _CustomAvatarState extends State<CustomAvatar> {
   @override
   Widget build(BuildContext context) {
-    var url = widget.url.isEmpty ? defaultAvatar : baseUrl + widget.url;
+    var url = widget.url!.isEmpty ? defaultAvatar : baseUrl + widget.url!;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(500),

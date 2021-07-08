@@ -43,7 +43,7 @@ Widget buildHeader(BuildContext context, Issue issue) {
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      CustomAvatar(url: issue.accountPublic!.avatar ?? "",),
+      CustomAvatar(url: issue.accountPublic!.avatar),
       SizedBox(width: 10),
       Expanded(
         child: RichText(
