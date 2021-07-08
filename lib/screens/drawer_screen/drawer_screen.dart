@@ -16,7 +16,7 @@ class DrawerScreen extends StatefulWidget {
 
 class _DrawerScreenState extends State<DrawerScreen> {
   final _picker = ImagePicker();
-  DrawerBloc drawerBloc = DrawerBloc();
+  final drawerBloc = DrawerBloc();
 
   @override
   void initState() {

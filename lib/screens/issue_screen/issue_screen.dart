@@ -42,6 +42,7 @@ class _IssueScreenState extends State<IssueScreen> {
   @override
   Widget build(BuildContext context) {
     print('_IssueScreenState.build');
+
     return Scaffold(
       appBar: CustomAppBar(
         appBar: AppBar(
