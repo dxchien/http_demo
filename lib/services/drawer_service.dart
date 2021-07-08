@@ -2,16 +2,16 @@ import 'dart:io';
 
 import 'package:http_demo/models/uploaded_file.dart';
 import 'package:http_demo/services/api_service.dart';
+import 'package:http_demo/utils/constant.dart';
 
 extension DrawerService on ApiService {
   Future uploadAvatar({
     required File file,
-    required String token,
     required Function(String) onSuccess,
     required Function(String) onFailure,
   }) async {
     Map<String, String> headers = {
-      "Authorization": "Bearer $token",
+      "Authorization": "Bearer ${loggedUser.token}",
     };
 
     await apiService.request(

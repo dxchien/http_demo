@@ -84,9 +84,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
       );
       if (pickedFile != null) {
         progress.show();
-        drawerBloc
-            .uploadAvatar(File(pickedFile.path))
-            .then((value) => progress.hide());
+        await drawerBloc.uploadAvatar(File(pickedFile.path));
+        progress.hide();
       } else {
         print('_DrawerScreenState.selectPhoto false');
       }
