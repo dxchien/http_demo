@@ -28,6 +28,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.black12,
       padding: EdgeInsets.all(10),
       child: SafeArea(
         child: Column(
