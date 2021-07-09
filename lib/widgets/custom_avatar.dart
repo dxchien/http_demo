@@ -19,15 +19,23 @@ class CustomAvatar extends StatefulWidget {
 class _CustomAvatarState extends State<CustomAvatar> {
   @override
   Widget build(BuildContext context) {
-    var url = widget.url!.isEmpty ? defaultAvatar : baseUrl + widget.url!;
+    var url = widget.url == null || widget.url!.isEmpty
+        ? defaultAvatar
+        : baseUrl + widget.url!;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(500),
       child: Container(
-        width: widget.size,
-        height: widget.size,
-        child: Image(image: CachedNetworkImageProvider(url), fit: BoxFit.cover),
-      ),
+          width: widget.size,
+          height: widget.size,
+          child: CachedNetworkImage(
+            imageUrl: url,
+            fit: BoxFit.cover,
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                CircularProgressIndicator(value: downloadProgress.progress),
+            errorWidget: (context, url, error) =>
+                Icon(Icons.image_not_supported),
+          )),
     );
   }
 }

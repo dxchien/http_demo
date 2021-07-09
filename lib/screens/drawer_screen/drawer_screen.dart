@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http_demo/blocs/drawer_bloc.dart';
+import 'package:http_demo/screens/photo_screen.dart';
+import 'package:http_demo/utils/constant.dart';
 import 'package:http_demo/widgets/custom_avatar.dart';
 import 'package:http_demo/widgets/dialogs/progess_dialog.dart';
 import 'package:http_demo/widgets/show_value_bottom_sheet.dart';
@@ -17,6 +19,7 @@ class DrawerScreen extends StatefulWidget {
 class _DrawerScreenState extends State<DrawerScreen> {
   final _picker = ImagePicker();
   final drawerBloc = DrawerBloc();
+  String currentAvatar = defaultAvatar;
 
   @override
   void initState() {
@@ -36,6 +39,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
             StreamBuilder<String>(
               stream: drawerBloc.avatarStream,
               builder: (ctx, snapshot) {
+                currentAvatar = snapshot.data ?? defaultAvatar;
+
                 return GestureDetector(
                   onTap: changeAvatarAction,
                   child: CustomAvatar(url: snapshot.data, size: 120),
@@ -61,7 +66,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
         Navigator.of(context).pop();
         switch (index) {
           case 0:
-            print('View Avatar');
+            viewPhoto();
             break;
           case 1:
             selectPhoto(ImageSource.camera);
@@ -72,6 +77,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
         }
       },
     );
+  }
+
+  void viewPhoto() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (ctx) => PhotoScreen(path: currentAvatar),
+    ));
   }
 
   void selectPhoto(ImageSource imageSource) async {
