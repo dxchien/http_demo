@@ -6,6 +6,7 @@ import 'package:http_demo/services/drawer_service.dart';
 
 class DrawerBloc {
   final _avatarStreamCtrl = StreamController<String>();
+  late File selectedImage;
 
   Stream<String> get avatarStream => _avatarStreamCtrl.stream;
 
@@ -15,9 +16,9 @@ class DrawerBloc {
     _avatarStreamCtrl.close();
   }
 
-  Future uploadAvatar(File file) async {
+  Future uploadAvatar() async {
     await apiService.uploadAvatar(
-      file: file,
+      file: selectedImage,
       onSuccess: (data) {
         _avatarStreamCtrl.add(data);
       },

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http_demo/blocs/drawer_bloc.dart';
 import 'package:http_demo/screens/photo_screen.dart';
 import 'package:http_demo/utils/constant.dart';
+import 'package:http_demo/utils/navigator.dart';
 import 'package:http_demo/widgets/custom_avatar.dart';
 import 'package:http_demo/widgets/dialogs/progess_dialog.dart';
 import 'package:http_demo/widgets/show_value_bottom_sheet.dart';
@@ -80,13 +81,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
   }
 
   void viewPhoto() {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (ctx) => PhotoScreen(path: currentAvatar),
-    ));
+    navigatorPush(context, PhotoScreen(path: currentAvatar));
   }
 
   void selectPhoto(ImageSource imageSource) async {
-    final progress = ProgressDialog(context: context);
     try {
       PickedFile? pickedFile = await _picker.getImage(
         maxWidth: 500,
@@ -95,14 +93,28 @@ class _DrawerScreenState extends State<DrawerScreen> {
         imageQuality: 100,
       );
       if (pickedFile != null) {
-        progress.show();
-        await drawerBloc.uploadAvatar(File(pickedFile.path));
-        progress.hide();
+        drawerBloc.selectedImage = File(pickedFile.path);
+        navigatorPush(
+          context,
+          PhotoScreen(
+            path: pickedFile.path,
+            action: uploadAvatar,
+            actionLabel: "Lưu",
+          ),
+        );
       } else {
         print('_DrawerScreenState.selectPhoto false');
       }
     } catch (e) {
       print('Bạn không đủ quyền truy cập');
     }
+  }
+
+  void uploadAvatar() async {
+    final progress = ProgressDialog(context: context);
+    progress.show();
+    await drawerBloc.uploadAvatar();
+    progress.hide();
+    Navigator.of(context).pop();
   }
 }
