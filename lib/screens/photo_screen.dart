@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:http_demo/utils/constant.dart';
 import 'package:photo_view/photo_view.dart';
 
 class PhotoScreen extends StatefulWidget {
@@ -26,6 +27,8 @@ class _PhotoScreenState extends State<PhotoScreen> {
     ImageProvider imageProvider;
     if (widget.path.startsWith("http")) {
       imageProvider = CachedNetworkImageProvider(widget.path);
+    } else if (widget.path.startsWith("/uploads/")) {
+      imageProvider = CachedNetworkImageProvider(baseUrl + widget.path);
     } else {
       imageProvider = FileImage(File(widget.path));
     }
