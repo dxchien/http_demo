@@ -40,14 +40,14 @@ class _PhotoScreenState extends State<PhotoScreen> {
             Positioned(
               child: PhotoView(
                 backgroundDecoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
                 imageProvider: imageProvider,
               ),
             ),
             Positioned(
-              top: 10,
-              left: 10,
+              top: 16,
+              left: 16,
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
@@ -56,7 +56,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
                   width: 32,
                   height: 32,
                   decoration: BoxDecoration(
-                    color: Colors.black26,
+                    color: Colors.white24,
                     borderRadius: BorderRadius.all(Radius.circular(50)),
                   ),
                   child: Icon(
@@ -68,7 +68,8 @@ class _PhotoScreenState extends State<PhotoScreen> {
             ),
             if (widget.actionLabel != null) ...[
               Positioned(
-                right: 0,
+                top: 8,
+                right: 8,
                 child: TextButton(
                   style: TextButton.styleFrom(padding: EdgeInsets.zero),
                   child: Text(widget.actionLabel ?? ""),
